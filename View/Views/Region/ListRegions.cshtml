@@ -1,0 +1,42 @@
+﻿@model PagedList.IPagedList<View.Models.RegionViewModel>
+@{
+    ViewBag.Title = "Regiões";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Regiões</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 10px">@Html.DisplayNameFor(model => model.RegionID)</th>
+                        <th>@Html.DisplayNameFor(model => model.RegionDescription)</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.RegionID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RegionDescription)</td>
+
+                        </tr>
+
+                    }
+                </table>
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div><!-- /.box -->
+    </div>
+</div>
