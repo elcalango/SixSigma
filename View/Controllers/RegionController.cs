@@ -22,20 +22,19 @@ namespace View.Controllers
         {
             _regionService = new RegionService();
 
-            //var regions = _regionService.GetRegions().ToPagedList<Region>(page, 2);
+            var regions = _regionService.GetRegions().ToPagedList<Region>(page, 20);
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PagedList<Region>, PagedList<RegionViewModel>>()
-                    .ConvertUsing<PagedListConverter>();
+                cfg.CreateMap<IPagedList<Region>, PagedViewModel<Region>>()
+                    .ConvertUsing(new PagedListTypeConverter<Region>());
             });
 
-
-            config.CreateMapper(new PagedListTypeConverter<Region, RegionViewModel>)
+           
             IMapper mapper = config.CreateMapper();
 
-
-            var viewModels = Mapper.Map<PagedList<Region>, PagedList<RegionViewModel>>(regions);
+            var viewModels = mapper.Map<IPagedList<Region>, PagedViewModel<Region>>(regions);
+            //var viewModels = Mapper.Map<PagedList<Region>, PagedList<RegionViewModel>>(regions);
 
 
 
@@ -64,42 +63,9 @@ namespace View.Controllers
 
     }
 
-    public class PagedViewModel<T>
-    {
-        public int FirstItemOnPage { get; set; }
-        public bool HasNextPage { get; set; }
-        public bool HasPreviousPage { get; set; }
-        public bool IsFirstPage { get; set; }
-        public bool IsLastPage { get; set; }
-        public int LastItemOnPage { get; set; }
-        public int PageCount { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public int TotalItemCount { get; set; }
-        public IEnumerable<T> rows { get; set; }
-    }
+    
 
-    public class PagedListTypeConverter<T> : ITypeConverter<IPagedList<T>, PagedViewModel<T>>
-    {
-        public PagedViewModel<T> Convert(ResolutionContext context)
-        {
-            var source = (IPagedList<T>)context.SourceValue;
-            return new PagedViewModel<T>()
-            {
-                FirstItemOnPage = source.FirstItemOnPage,
-                HasNextPage = source.HasNextPage,
-                HasPreviousPage = source.HasPreviousPage,
-                IsFirstPage = source.IsFirstPage,
-                IsLastPage = source.IsLastPage,
-                LastItemOnPage = source.LastItemOnPage,
-                PageCount = source.PageCount,
-                PageNumber = source.PageNumber,
-                PageSize = source.PageSize,
-                TotalItemCount = source.TotalItemCount,
-                rows = source
-            };
-        }
-    }
+    
 
     public class PagedListConverter : ITypeConverter<PagedList<Region>, PagedList<RegionViewModel>>
     {
