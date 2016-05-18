@@ -22,18 +22,31 @@ namespace View.Controllers
         {
             _regionService = new RegionService();
 
-            var regions = _regionService.GetRegions().ToPagedList<Region>(page, 20);
+            //var regions = _regionService.GetRegions().ToPagedList<Region>(page, 20);
+
+            var regions = _regionService.GetRegions();
+
+            var config2 = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Region, RegionViewModel>();
+            });
+
+            IMapper mapper2 = config2.CreateMapper();
+
+            IList<RegionViewModel> regionView = mapper2.Map<IList<Region>, IList<RegionViewModel>>(regions);
+
+            var modelPagedList = regionView.ToPagedList<RegionViewModel>(page, 2);
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<IPagedList<Region>, PagedViewModel<Region>>()
-                    .ConvertUsing(new PagedListTypeConverter<Region>());
+                cfg.CreateMap<IPagedList<RegionViewModel>, PagedViewModel<RegionViewModel>>()
+                    .ConvertUsing(new PagedListTypeConverter<RegionViewModel>());
             });
 
            
             IMapper mapper = config.CreateMapper();
 
-            var viewModels = mapper.Map<IPagedList<Region>, PagedViewModel<Region>>(regions);
+            var viewModels = mapper.Map<IPagedList<RegionViewModel>, PagedViewModel<RegionViewModel>>(modelPagedList);
             //var viewModels = Mapper.Map<PagedList<Region>, PagedList<RegionViewModel>>(regions);
 
 

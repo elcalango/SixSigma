@@ -1,6 +1,6 @@
 ﻿@using DTO;
 @using View.Models;
-@model PagedViewModel<Region>
+@model PagedViewModel<RegionViewModel>
 @{
     ViewBag.Title = "Regiões";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,9 +16,9 @@
             <div class="box-body">
                 <table class="table table-bordered">
                     <tr>
-                        <th style="width: 10px">@Html.DisplayNameFor(model => model)</th>
-                        <th>@Html.DisplayNameFor(model => model.RegionDescription)</th>
-                      
+                        <th style="width: 10px">@Html.DisplayNameFor(model => model.rows.First().RegionID)</th>
+                        <th>@Html.DisplayNameFor(model => model.rows.First().RegionDescription)</th>
+
                     </tr>
                     @foreach (var item in Model.rows)
                     {
@@ -33,12 +33,29 @@
             </div><!-- /.box-body -->
             <div class="box-footer clearfix">
                 <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">&raquo;</a></li>
+                    <li>
+                        @if (!Model.IsFirstPage)
+                        {
+                            <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">&laquo;</a>
+                        }
+                    </li>
+                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">1</a></li>
+                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber  } )">@Model.PageNumber</a></li>
+                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber  } )">3</a> </li>
+                    <li>
+                        @if (!Model.IsLastPage)
+                        {
+                            <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber + 1 } )">&raquo;</a>
+                        }
+                    </li>
                 </ul>
+            </div>
+            <br />
+            <div class="box-footer clearfix">
+
+
+                @(Model.PageNumber) of @(Model.TotalItemCount / Model.PageSize)
+
             </div>
         </div><!-- /.box -->
     </div>
