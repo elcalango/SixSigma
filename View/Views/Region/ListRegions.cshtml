@@ -38,14 +38,26 @@
                         {
                             <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">&laquo;</a>
                         }
+                        else
+                        {
+                            <a href="#">&laquo;</a>
+                        }
                     </li>
-                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">1</a></li>
-                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber  } )">@Model.PageNumber</a></li>
-                    <li><a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber  } )">3</a> </li>
+                     
+                    @for (int i = (Model.PageNumber - 1 <= 0 ? 1 : Model.PageNumber); i <= (Model.PageNumber + 1 > Model.PageCount ? Model.PageNumber : Model.PageNumber + 1); i++)
+                    {
+                        <li>
+                            <a href="@Url.Action("ListRegions", "Region", new { page = i } )">@i</a>
+                        </li>
+                    } 
                     <li>
                         @if (!Model.IsLastPage)
                         {
                             <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber + 1 } )">&raquo;</a>
+                        }
+                        else
+                        {
+                            <a href="#">&raquo;</a>
                         }
                     </li>
                 </ul>
