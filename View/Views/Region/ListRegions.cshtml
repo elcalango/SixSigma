@@ -18,46 +18,51 @@
                     <tr>
                         <th style="width: 10px">@Html.DisplayNameFor(model => model.rows.First().RegionID)</th>
                         <th>@Html.DisplayNameFor(model => model.rows.First().RegionDescription)</th>
-
+                        <th></th>
                     </tr>
                     @foreach (var item in Model.rows)
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.RegionID)</td>
                             <td>@Html.DisplayFor(modelItem => item.RegionDescription)</td>
-
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.RegionID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.RegionID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.RegionID })
+                            </td>
                         </tr>
 
                     }
                 </table>
             </div><!-- /.box-body -->
+           
             <div class="box-footer clearfix">
                 <ul class="pagination pagination-sm no-margin pull-right">
                     <li>
                         @if (!Model.IsFirstPage)
                         {
-                            <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">&laquo;</a>
+                        <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber - 1 } )">&laquo;</a>
                         }
                         else
                         {
-                            <a href="#">&laquo;</a>
+                        <a href="#">&laquo;</a>
                         }
                     </li>
-                     
+
                     @for (int i = (Model.PageNumber - 1 <= 0 ? 1 : Model.PageNumber); i <= (Model.PageNumber + 1 > Model.PageCount ? Model.PageNumber : Model.PageNumber + 1); i++)
                     {
-                        <li>
-                            <a href="@Url.Action("ListRegions", "Region", new { page = i } )">@i</a>
-                        </li>
-                    } 
+                    <li>
+                        <a href="@Url.Action("ListRegions", "Region", new { page = i } )">@i</a>
+                    </li>
+                    }
                     <li>
                         @if (!Model.IsLastPage)
                         {
-                            <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber + 1 } )">&raquo;</a>
+                        <a href="@Url.Action("ListRegions", "Region", new { page = Model.PageNumber + 1 } )">&raquo;</a>
                         }
                         else
                         {
-                            <a href="#">&raquo;</a>
+                        <a href="#">&raquo;</a>
                         }
                     </li>
                 </ul>

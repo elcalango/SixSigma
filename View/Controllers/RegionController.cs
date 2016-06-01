@@ -17,12 +17,10 @@ namespace View.Controllers
     public class RegionController : Controller
     {
         private RegionService _regionService;
-        // GET: Region
+
         public ActionResult ListRegions(int page = 1)
         {
             _regionService = new RegionService();
-
-            //var regions = _regionService.GetRegions().ToPagedList<Region>(page, 20);
 
             var regions = _regionService.GetRegions();
 
@@ -33,9 +31,9 @@ namespace View.Controllers
 
             IMapper mapper2 = config2.CreateMapper();
 
-            IList<RegionViewModel> regionView = mapper2.Map<IList<Region>, IList<RegionViewModel>>(regions);
+            IList<RegionViewModel> regionViewModel = mapper2.Map<IList<Region>, IList<RegionViewModel>>(regions);
 
-            var modelPagedList = regionView.ToPagedList<RegionViewModel>(page, 2);
+            var modelPagedList = regionViewModel.ToPagedList<RegionViewModel>(page, 2);
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -43,16 +41,48 @@ namespace View.Controllers
                     .ConvertUsing(new PagedListTypeConverter<RegionViewModel>());
             });
 
-           
+
             IMapper mapper = config.CreateMapper();
 
             var viewModels = mapper.Map<IPagedList<RegionViewModel>, PagedViewModel<RegionViewModel>>(modelPagedList);
-            //var viewModels = Mapper.Map<PagedList<Region>, PagedList<RegionViewModel>>(regions);
-
 
 
             return View(viewModels);
         }
+
+
+        // GET: Region
+        //public ActionResult ListRegions(int page = 1)
+        //{
+        //    _regionService = new RegionService(); 
+
+        //    var regions = _regionService.GetRegions();
+
+        //    var config2 = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<Region, RegionViewModel>();
+        //    });
+
+        //    IMapper mapper2 = config2.CreateMapper();
+
+        //    IList<RegionViewModel> regionViewModel = mapper2.Map<IList<Region>, IList<RegionViewModel>>(regions);
+
+        //    var modelPagedList = regionViewModel.ToPagedList<RegionViewModel>(page, 2);
+
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<IPagedList<RegionViewModel>, PagedViewModel<RegionViewModel>>()
+        //            .ConvertUsing(new PagedListTypeConverter<RegionViewModel>());
+        //    });
+
+
+        //    IMapper mapper = config.CreateMapper();
+
+        //    var viewModels = mapper.Map<IPagedList<RegionViewModel>, PagedViewModel<RegionViewModel>>(modelPagedList);
+
+
+        //    return View(viewModels);
+        //}
 
         public ActionResult Index()
         {
@@ -76,27 +106,7 @@ namespace View.Controllers
 
     }
 
-    
+     
 
-    
 
-    public class PagedListConverter : ITypeConverter<PagedList<Region>, PagedList<RegionViewModel>>
-    {
-        public PagedList<RegionViewModel> Convert(ResolutionContext context)
-        {
-            var model = (PagedList<Region>)context.SourceValue;
-            var vm = model.Select(m => Mapper.Map<Region, RegionViewModel>(m)).ToList();
-
-            return new PagedList<RegionViewModel>(vm, model.PageNumber, model.PageSize);
-        }
-    }
-
-    public static class MapperExtensions
-    {
-        public static IPagedList<TDestination> ProjectToPagedList<TDestination>(this IQueryable queryable, MapperConfiguration config,
-            int pageNumber, int pageSize)
-        {
-            return queryable.ProjectTo<TDestination>(config).Decompile().ToPagedList(pageNumber, pageSize);
-        }
-    }
 }

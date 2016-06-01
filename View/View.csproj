@@ -219,6 +219,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RegionController.cs" />
+    <Compile Include="Controllers\ShipperController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,6 +230,7 @@
     <Compile Include="Models\PagedListTypeConverter.cs" />
     <Compile Include="Models\PagedViewModel.cs" />
     <Compile Include="Models\RegionViewModel.cs" />
+    <Compile Include="Models\ShipperViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1899,6 +1901,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jQuery-2.1.4.min.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\Shipper.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1908,7 +1911,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1966,6 +1971,9 @@
     <Content Include="Scripts\AdminLTE-2.3.0\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Views\Region\ListRegions.cshtml" />
     <Content Include="Views\Region\Index.cshtml" />
+    <Content Include="Views\Shipper\Index.cshtml" />
+    <Content Include="Views\Shipper\_Shipper.cshtml" />
+    <Content Include="Views\Shipper\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

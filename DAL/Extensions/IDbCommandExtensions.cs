@@ -14,7 +14,7 @@ namespace DAL.Extensions
             var parameter = command.CreateParameter();
             parameter.ParameterName = name;
             parameter.Value = value;
-
+            //parameter.DbType = DbType.String;
             return parameter;
         }
     }
